@@ -13,7 +13,7 @@
   }
 
   const send = () => {
-    const message = { endpoint: props.endpoint }
+    const message = { topic: 'endpoint', _data: props.endpoint }
     try {
       ws().send(JSON.stringify(message))
     } catch (error) {

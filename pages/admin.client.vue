@@ -3,6 +3,7 @@
     layout: 'admin',
   })
 
+  let endpoint = ''
   const data = ref({})
   const originalData = ref({})
   const iframeRef = ref(null)
@@ -10,15 +11,18 @@
   const ws = useWebsocket()
 
   ws().onmessage = async event => {
-    const endpoint = JSON.parse(event.data)?.endpoint
-    if (!endpoint) return
+    const { topic, _data } = JSON.parse(event.data)
 
-    data.value = await $fetch(`/api/${endpoint}`)
-    originalData.value = JSON.parse(JSON.stringify(data.value))
-  }
+    console.log('***** Admin received data from ws ******')
+    console.log({ topic, _data })
+    console.log('****************************************')
 
-  ws().onerror = error => {
-    console.error('WebSocket error:', error)
+    if (topic == 'endpoint') {
+      endpoint = _data
+
+      data.value = await $fetch(`/api/${endpoint}`)
+      originalData.value = JSON.parse(JSON.stringify(data.value))
+    }
   }
 
   const save = async () => {
@@ -35,6 +39,19 @@
     const iframe = iframeRef.value
     iframe?.contentWindow.location.reload()
   }
+
+  // watch data changes
+  watch(
+    data,
+    async (newData, oldData) => {
+      if (!oldData.id) return
+
+      const message = { topic: 'update', _data: { ...data.value, endpoint } }
+      console.log('Admin sends data to ws', message)
+      ws().send(JSON.stringify(message))
+    },
+    { deep: true }
+  )
 </script>
 
 <template>

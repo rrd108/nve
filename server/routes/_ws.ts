@@ -1,12 +1,20 @@
 export default defineWebSocketHandler({
   open(peer) {
     console.log('[ws] open', peer)
-    peer.subscribe('admin')
+    peer.subscribe('endpoint')
+    peer.subscribe('update')
   },
 
   message(peer, message) {
     console.log('[ws] message received', peer, message)
-    peer.publish('admin', `${message}`)
+
+    const { topic, _data } = JSON.parse(message.text())
+
+    console.log('******* WS MESSAGE *******')
+    console.log({ topic, _data })
+    console.log('**************************')
+
+    peer.publish(topic, `${message}`)
   },
 
   close(peer, event) {
