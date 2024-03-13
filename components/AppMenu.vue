@@ -1,5 +1,16 @@
 <script lang="ts" setup>
-  const menu = await $fetch('/api/menu/1')
+  const menu = ref(await $fetch('/api/menu/1'))
+
+  if (process.client) {
+    const ws = useWebsocket()
+
+    ws().onmessage = event => {
+      const { topic, _data } = JSON.parse(event.data)
+      if (topic == 'update') {
+        menu.value.links = _data.links
+      }
+    }
+  }
 </script>
 
 <template>
