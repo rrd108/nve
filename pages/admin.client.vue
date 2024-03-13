@@ -68,26 +68,44 @@
   <section>
     <main>
       <iframe
+        :class="{ pulseOnChange: hasChangedData }"
         ref="iframeRef"
         src="http://localhost:3000"
         :width="preview == 'mobile' ? '360px' : '1160px'"
         :height="preview == 'mobile' ? '640px' : '100%'"
-      ></iframe>
+      />
     </main>
     <aside>
       <h2>Admin</h2>
-      <button @click="save" :disabled="!hasChangedData">Mentés</button>
+      <button @click="save" :disabled="!hasChangedData" :class="{ pulseOnChange: hasChangedData }">Mentés</button>
       <h3>{{ data.label }}</h3>
       <ul>
-        <li v-for="item in data.links">
-          <label>
-            Label
-            <input type="text" v-model="item.label" />
-          </label>
-          <label>
-            Link
-            <input type="text" v-model="item.link" />
-          </label>
+        <li v-for="item in data.children">
+          <div v-if="item.link">
+            <label>
+              Label
+              <input type="text" v-model="item.label" />
+            </label>
+            <label>
+              Link
+              <input type="text" v-model="item.link" />
+            </label>
+          </div>
+          <div v-if="!item.link">
+            <h4>{{ item.label }}</h4>
+            <ul>
+              <li v-for="subItem in item.links">
+                <label>
+                  Label
+                  <input type="text" v-model="subItem.label" />
+                </label>
+                <label>
+                  Link
+                  <input type="text" v-model="subItem.link" />
+                </label>
+              </li>
+            </ul>
+          </div>
         </li>
       </ul>
     </aside>
@@ -134,7 +152,14 @@
   }
   li {
     padding: 0.5em;
-    border-bottom: 0.1em solid var(--primary);
+    border-radius: 0.5em;
+  }
+  li:nth-child(odd) {
+    background-color: var(--secondary-hover);
+  }
+
+  li li:nth-child(odd) {
+    background-color: var(--secondary);
   }
 
   input,
@@ -160,21 +185,20 @@
     background-color: var(--primary);
     border: 0.1em solid var(--primary);
     color: var(--accent);
+  }
+  .pulseOnChange {
     animation: pulse 2s ease-in-out infinite;
   }
 
   @keyframes pulse {
     0% {
       border-color: var(--primary);
-      background-color: var(--primary-hover);
     }
     50% {
       border-color: var(--accent);
-      background-color: var(--primary);
     }
     100% {
       border-color: var(--primary);
-      background-color: var(--primary-hover);
     }
   }
 </style>

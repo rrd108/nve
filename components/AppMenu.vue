@@ -7,7 +7,7 @@
     ws().onmessage = event => {
       const { topic, _data } = JSON.parse(event.data)
       if (topic == 'update') {
-        menu.value.links = _data.links
+        menu.value.children = _data.children
       }
     }
   }
@@ -16,10 +16,20 @@
 <template>
   <div>
     <ul>
-      <li v-for="item in menu?.links" :key="item?.id">
-        <NuxtLink :to="item?.link">
+      <li v-for="item in menu?.children" :key="item?.id">
+        <NuxtLink :to="item?.link" v-if="item.link">
           {{ item?.label }}
         </NuxtLink>
+        <div v-if="!item.link">
+          {{ item?.label }}
+          <ul>
+            <li v-for="subItem in item.links">
+              <NuxtLink :to="subItem?.link" v-if="subItem.link">
+                {{ subItem?.label }}
+              </NuxtLink>
+            </li>
+          </ul>
+        </div>
       </li>
     </ul>
     <EditButton :endpoint="'menu/1'" />

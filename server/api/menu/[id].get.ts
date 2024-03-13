@@ -7,7 +7,9 @@ export default defineEventHandler(async event => {
 
   const menu = await prisma.menu.findUnique({
     where: { id },
-    include: { links: true },
+    include: { links: true, children: { include: { links: true } } },
   })
+  menu.children = [...menu?.children, ...menu?.links]
+  delete menu.links
   return menu
 })

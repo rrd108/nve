@@ -35,7 +35,7 @@
     border-radius: 50%;
     width: 2rem;
     height: 2rem;
-    background-color: var(--accent);
+    background-color: #fff;
   }
   button:hover {
     background-color: var(--secondary);
