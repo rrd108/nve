@@ -1,5 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
+  const route = useRoute()
+
   const props = defineProps<{
     endpoint: string
   }>()
@@ -23,7 +25,7 @@
 </script>
 
 <template>
-  <button @click="send" :disabled="!wsOpened">✒️</button>
+  <button v-if="route.query.preview" @click="send" :disabled="!wsOpened">✒️</button>
 </template>
 
 <style scoped>

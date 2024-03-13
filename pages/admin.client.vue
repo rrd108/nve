@@ -71,7 +71,7 @@
       <iframe
         :class="{ pulseOnChange: hasChangedData }"
         ref="iframeRef"
-        src="http://localhost:3000"
+        src="http://localhost:3000?preview=true"
         :width="preview == 'mobile' ? '360px' : '1160px'"
         :height="preview == 'mobile' ? '640px' : '100%'"
       />
