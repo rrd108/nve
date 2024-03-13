@@ -10,7 +10,9 @@
   const ws = useWebsocket()
 
   ws().onmessage = async event => {
-    const endpoint = JSON.parse(event.data).name
+    const endpoint = JSON.parse(event.data)?.endpoint
+    if (!endpoint) return
+
     data.value = await $fetch(`/api/${endpoint}`)
     originalData.value = JSON.parse(JSON.stringify(data.value))
   }

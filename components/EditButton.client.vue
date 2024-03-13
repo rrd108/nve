@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue'
   const props = defineProps<{
-    name: string
+    endpoint: string
   }>()
 
   const wsOpened = ref(false)
@@ -13,7 +13,7 @@
   }
 
   const send = () => {
-    const message = { name: props.name }
+    const message = { endpoint: props.endpoint }
     try {
       ws().send(JSON.stringify(message))
     } catch (error) {

@@ -11,7 +11,7 @@
         </NuxtLink>
       </li>
     </ul>
-    <EditButton :name="'menu/2'" />
+    <EditButton :endpoint="'menu/2'" />
   </div>
 </template>
 
