@@ -55,13 +55,24 @@
     },
     { deep: true }
   )
+
+  const preview = ref('desktop')
 </script>
 
 <template>
-  <h1>Admin</h1>
+  <h1>
+    Admin
+    <span @click="preview = 'mobile'">📱</span>
+    <span @click="preview = 'desktop'">💻</span>
+  </h1>
   <section>
     <main>
-      <iframe ref="iframeRef" src="http://localhost:3000" width="100%" height="100%"></iframe>
+      <iframe
+        ref="iframeRef"
+        src="http://localhost:3000"
+        :width="preview == 'mobile' ? '360px' : '1160px'"
+        :height="preview == 'mobile' ? '640px' : '100%'"
+      ></iframe>
     </main>
     <aside>
       <h2>Admin</h2>
@@ -84,6 +95,12 @@
 </template>
 
 <style scoped>
+  h1 span {
+    cursor: pointer;
+  }
+  main {
+    margin: 0 auto;
+  }
   section {
     display: grid;
     grid-template-columns: 4fr 1fr;
@@ -99,6 +116,8 @@
     border-radius: 0.5em;
   }
   aside h2 {
+    border-top-left-radius: 0.5em;
+    border-top-right-radius: 0.5em;
     background-color: var(--primary-hover);
     color: #fff;
     padding: 1em;
