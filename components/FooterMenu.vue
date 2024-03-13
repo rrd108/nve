@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div>
+  <section class="component">
     <ul>
       <li v-for="item in menu?.children" :key="item?.id">
         <NuxtLink :to="item?.link">
@@ -12,14 +12,10 @@
       </li>
     </ul>
     <EditButton :endpoint="'menu/2'" />
-  </div>
+  </section>
 </template>
 
 <style scoped>
-  div {
-    position: relative;
-    width: max-content;
-  }
   ul {
     list-style: none;
     display: flex;

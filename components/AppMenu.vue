@@ -14,7 +14,7 @@
 </script>
 
 <template>
-  <section>
+  <section class="component">
     <ul>
       <li v-for="item in menu?.children" :key="item?.id">
         <NuxtLink :to="item?.link" v-if="item.link">
@@ -37,14 +37,6 @@
 </template>
 
 <style scoped>
-  section {
-    position: relative;
-    width: max-content;
-    border: 0.1em dotted #fff;
-  }
-  section:hover {
-    border: 0.1em dotted var(--secondary-hover);
-  }
   ul {
     list-style: none;
     display: flex;

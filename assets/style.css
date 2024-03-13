@@ -14,3 +14,12 @@
 * {
   font-family: 'Quicksand' sans-serif;
 }
+
+section.component {
+  position: relative;
+  width: max-content;
+  border: 0.1em dotted #fff;
+}
+section.component:hover {
+  border: 0.1em dotted var(--secondary-hover);
+}

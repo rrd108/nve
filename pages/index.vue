@@ -1,5 +1,5 @@
 <template>
-  <div>Index</div>
+  <section class="component">Index</section>
 </template>
 
 <script lang="ts" setup></script>
