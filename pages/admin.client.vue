@@ -23,6 +23,7 @@
 
       data.value = await $fetch(`/api/${endpoint}`)
       originalData.value = JSON.parse(JSON.stringify(data.value))
+      hasChangedData.value = false
     }
   }
 
@@ -45,7 +46,7 @@
   watch(
     data,
     async (newData, oldData) => {
-      if (!oldData.id) return
+      if (!oldData.id || newData.id != oldData.id) return
 
       hasChangedData.value = true
 
