@@ -71,11 +71,11 @@
     height: 80vh;
   }
   iframe {
-    border: 0.1em solid #c9b3dd;
+    border: 0.1em solid var(--secondary);
     border-radius: 0.5em;
   }
   aside {
-    background-color: #c9b3dd;
+    background-color: var(--secondary);
     padding: 0.5em;
     border-radius: 0.5em;
   }
@@ -86,7 +86,7 @@
   }
   li {
     padding: 0.5em;
-    border-bottom: 0.1em solid #592c83;
+    border-bottom: 0.1em solid var(--primary);
   }
 
   input,

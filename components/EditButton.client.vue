@@ -31,5 +31,14 @@
     position: absolute;
     top: 0;
     right: -3em;
+    border: 0.1em solid var(--secondary);
+    border-radius: 50%;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--accent);
+  }
+  button:hover {
+    background-color: var(--secondary);
+    border-color: var(--accent);
   }
 </style>
