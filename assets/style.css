@@ -2,10 +2,12 @@
 
 :root {
   --primary: #592c83ff;
+  --primary-hover: #401866;
   --secondary: #b79cedff;
   --accent: #f5d6baff;
+  --alert: #c5283dff;
+
   --caribbean-current: #006d77ff;
-  --cardinal: #c5283dff;
 }
 
 * {

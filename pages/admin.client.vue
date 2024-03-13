@@ -7,6 +7,7 @@
   const data = ref({})
   const originalData = ref({})
   const iframeRef = ref(null)
+  const hasChangedData = ref(false)
 
   const ws = useWebsocket()
 
@@ -36,8 +37,8 @@
       method: 'PATCH',
       body: JSON.stringify(changedLink),
     })
-    const iframe = iframeRef.value
-    iframe?.contentWindow.location.reload()
+    hasChangedData.value = false
+    originalData.value = JSON.parse(JSON.stringify(data.value))
   }
 
   // watch data changes
@@ -45,6 +46,8 @@
     data,
     async (newData, oldData) => {
       if (!oldData.id) return
+
+      hasChangedData.value = true
 
       const message = { topic: 'update', _data: { ...data.value, endpoint } }
       console.log('Admin sends data to ws', message)
@@ -62,6 +65,7 @@
     </main>
     <aside>
       <h2>Admin</h2>
+      <button @click="save" :disabled="!hasChangedData">Mentés</button>
       <h3>{{ data.label }}</h3>
       <ul>
         <li v-for="item in data.links">
@@ -75,7 +79,6 @@
           </label>
         </li>
       </ul>
-      <button @click="save">Mentés</button>
     </aside>
   </section>
 </template>
@@ -93,12 +96,21 @@
   }
   aside {
     background-color: var(--secondary);
-    padding: 0.5em;
     border-radius: 0.5em;
   }
-  ul {
-    list-style: none;
+  aside h2 {
+    background-color: var(--primary-hover);
+    color: #fff;
+    padding: 1em;
     margin: 0;
+    text-align: center;
+  }
+  aside h3,
+  aside ul {
+    margin: 0.5em;
+  }
+  aside ul {
+    list-style: none;
     padding: 0;
   }
   li {
@@ -116,12 +128,34 @@
     padding: 0.25em;
     margin-bottom: 0.5em;
   }
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    animation: none;
+  }
   button {
     width: max-content;
     display: block;
     margin: 0.5em auto;
-    padding: 0.5em;
-    background-color: #592c83;
-    color: #fff;
+    padding: 0.5em 1em;
+    background-color: var(--primary);
+    border: 0.1em solid var(--primary);
+    color: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      border-color: var(--primary);
+      background-color: var(--primary-hover);
+    }
+    50% {
+      border-color: var(--accent);
+      background-color: var(--primary);
+    }
+    100% {
+      border-color: var(--primary);
+      background-color: var(--primary-hover);
+    }
   }
 </style>
