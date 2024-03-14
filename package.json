@@ -13,7 +13,8 @@
     "@prisma/client": "5.11.0",
     "nuxt": "npm:nuxt-nightly@latest",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "prisma": "^5.11.0"

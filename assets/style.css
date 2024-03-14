@@ -29,3 +29,17 @@ section.component {
 section.component:hover {
   border: 0.1em dotted var(--secondary-hover);
 }
+
+/* admin */
+summary {
+  display: grid;
+  grid-template-columns: 1fr 10fr 1fr;
+  cursor: pointer;
+}
+summary::before {
+  content: '🢒';
+}
+summary::after {
+  content: '⤮';
+  cursor: move;
+}

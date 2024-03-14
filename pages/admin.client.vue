@@ -58,6 +58,14 @@
   )
 
   const preview = ref('desktop')
+
+  const drag = ref(false)
+  const dragOptions = {
+    animation: 200,
+    group: 'description',
+    disabled: false,
+    ghostClass: 'ghost',
+  }
 </script>
 
 <template>
@@ -80,35 +88,34 @@
       <h2>Admin</h2>
       <button @click="save" :disabled="!hasChangedData" :class="{ pulseOnChange: hasChangedData }">Mentés</button>
       <h3>{{ data.label }}</h3>
-      <ul>
-        <li v-for="item in data.children">
-          <div v-if="item.link">
-            <label>
-              Label
-              <input type="text" v-model="item.label" />
-            </label>
-            <label>
-              Link
-              <input type="text" v-model="item.link" />
-            </label>
-          </div>
-          <details v-if="!item.link">
-            <summary>{{ item.label }}</summary>
-            <ul>
-              <li v-for="subItem in item.links">
-                <label>
-                  Label
-                  <input type="text" v-model="subItem.label" />
-                </label>
-                <label>
-                  Link
-                  <input type="text" v-model="subItem.link" />
-                </label>
-              </li>
-            </ul>
-          </details>
-        </li>
-      </ul>
+      <draggable
+        class="list-group"
+        tag="ul"
+        :component-data="{
+          type: 'transition-group',
+          name: !drag ? 'flip-list' : null,
+        }"
+        v-model="data.children"
+        v-bind="dragOptions"
+        @start="drag = true"
+        @end="drag = false"
+        item-key="id"
+      >
+        <template #item="{ element: item }">
+          <li>
+            <LinkListItem :item="item" v-if="item.link" />
+
+            <details v-if="!item.link">
+              <summary>{{ item.label }}</summary>
+              <ul>
+                <li v-for="subItem in item.links">
+                  <LinkListItem :item="subItem" v-if="subItem.link" />
+                </li>
+              </ul>
+            </details>
+          </li>
+        </template>
+      </draggable>
     </aside>
   </section>
 </template>
@@ -201,5 +208,25 @@
     100% {
       border-color: var(--primary);
     }
+  }
+
+  .dragging {
+    rotate: 6deg;
+  }
+  .flip-list-move {
+    transition: transform 0.5s;
+  }
+
+  .no-move {
+    transition: transform 0s;
+  }
+
+  .ghost {
+    opacity: 0.5;
+    background: #c8ebfb;
+  }
+
+  .list-group {
+    min-height: 1rem;
   }
 </style>
