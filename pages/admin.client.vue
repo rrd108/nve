@@ -107,11 +107,25 @@
 
             <details v-if="!item.link">
               <summary>{{ item.label }}</summary>
-              <ul>
-                <li v-for="subItem in item.links">
-                  <LinkListItem :item="subItem" v-if="subItem.link" />
-                </li>
-              </ul>
+              <draggable
+                class="list-group"
+                tag="ul"
+                :component-data="{
+                  type: 'transition-group',
+                  name: !drag ? 'flip-list' : null,
+                }"
+                v-model="item.links"
+                v-bind="dragOptions"
+                @start="drag = true"
+                @end="drag = false"
+                item-key="uid"
+              >
+                <template #item="{ element: subItem }">
+                  <li>
+                    <LinkListItem :item="subItem" v-if="subItem.link" />
+                  </li>
+                </template>
+              </draggable>
             </details>
           </li>
         </template>
