@@ -32,4 +32,13 @@
     padding: 0.25em;
     margin-bottom: 0.5em;
   }
+  .dragging {
+    background: none;
+  }
+  .dragging > details {
+    rotate: 6deg;
+    background-color: #fff;
+    padding: 0.5em;
+    border-radius: 0.5em;
+  }
 </style>

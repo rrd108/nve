@@ -100,6 +100,7 @@
         @start="drag = true"
         @end="drag = false"
         item-key="uid"
+        dragClass="dragging"
       >
         <template #item="{ element: item }">
           <li>
@@ -219,9 +220,6 @@
     }
   }
 
-  .dragging {
-    rotate: 6deg;
-  }
   .flip-list-move {
     transition: transform 0.5s;
   }
@@ -230,9 +228,14 @@
     transition: transform 0s;
   }
 
-  .ghost {
+  .ghost,
+  .ghost:nth-child(odd) {
     opacity: 0.5;
     background: #c8ebfb;
+    border: 0.1em solid var(--primary-hover);
+  }
+  .ghost > details {
+    visibility: hidden;
   }
 
   .list-group {
