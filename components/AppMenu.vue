@@ -6,6 +6,11 @@
 
     ws().onmessage = event => {
       const { topic, _data } = JSON.parse(event.data)
+
+      console.log('***** AppMenu received data from ws ******')
+      console.log({ topic, _data })
+      console.log('********************************************')
+
       if (topic == 'update') {
         menu.value.children = _data.children
       }

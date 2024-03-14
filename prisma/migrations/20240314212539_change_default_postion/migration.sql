@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `Link` MODIFY `position` INTEGER NOT NULL DEFAULT 0;
+
+-- AlterTable
+ALTER TABLE `Menu` MODIFY `position` INTEGER NOT NULL DEFAULT 0;

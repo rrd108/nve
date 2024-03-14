@@ -29,15 +29,30 @@
 
   const save = async () => {
     // find which link is changed
-    const changedLink = data.value.links.find(
-      (link, index) =>
-        link.label !== originalData.value.links[index].label || link.link !== originalData.value.links[index].link
-    )
-    // send the changed links to the server
-    await $fetch('/api/save', {
-      method: 'PATCH',
-      body: JSON.stringify(changedLink),
-    })
+    if (data.value.links?.length) {
+      const changedLink = data.value.links.find(
+        (link, index) =>
+          link.label !== originalData.value.links[index].label || link.link !== originalData.value.links[index].link
+      )
+      // send the changed links to the server
+      await $fetch('/api/link', {
+        method: 'PATCH',
+        body: JSON.stringify(changedLink),
+      })
+    }
+
+    if (data.value.children?.length) {
+      data.value.children = data.value.children.map((item, index) => ({ ...item, position: index }))
+      //console.log(data.value)
+      // send the changed links to the server
+      await $fetch('/api/links', {
+        method: 'PATCH',
+        body: JSON.stringify(
+          data.value.children.map(item => ({ id: item.id, position: item.position, type: item.link ? 'link' : 'menu' }))
+        ),
+      })
+    }
+
     hasChangedData.value = false
     originalData.value = JSON.parse(JSON.stringify(data.value))
   }
@@ -51,7 +66,7 @@
       hasChangedData.value = true
 
       const message = { topic: 'update', _data: { ...data.value, endpoint } }
-      console.log('Admin sends data to ws', message)
+      console.log(' ***** Admin sends data to ws *****', message)
       ws().send(JSON.stringify(message))
     },
     { deep: true }
@@ -65,6 +80,12 @@
     group: 'description',
     disabled: false,
     ghostClass: 'ghost',
+  }
+
+  const changePosition = (event: { oldIndex: number; newIndex: number }) => {
+    const { oldIndex, newIndex } = event
+    const movedItem = data.value.children.splice(oldIndex, 1)[0]
+    data.value.children.splice(newIndex, 0, movedItem)
   }
 </script>
 
@@ -119,6 +140,7 @@
                 v-bind="dragOptions"
                 @start="drag = true"
                 @end="drag = false"
+                @change="changePosition"
                 item-key="uid"
               >
                 <template #item="{ element: subItem }">
