@@ -1,4 +1,5 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Link } from '@prisma/client'
+import GeneralLink from '~/interfaces/GeneralLink'
 
 const prisma = new PrismaClient()
 
@@ -11,7 +12,7 @@ export default defineEventHandler(async event => {
 
   const changed: string[] = []
   let item = { id: 0 }
-  const promises = data.map(async link => {
+  const promises = data.map(async (link: GeneralLink) => {
     if (link.type == 'link') {
       item = await prisma.link.update({ where: { id: link.id }, data: { position: link.position }, select: { id: true } })
       changed.push(`l${item.id}`)

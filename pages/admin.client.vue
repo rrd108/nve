@@ -1,11 +1,13 @@
 <script setup lang="ts">
+  import type GeneralLink from '~/interfaces/GeneralLink'
+
   definePageMeta({
     layout: 'admin',
   })
 
   let endpoint = ''
-  const data = ref({})
-  const originalData = ref({})
+  const data = ref<GeneralLink>({} as GeneralLink)
+  const originalData = ref<GeneralLink>({} as GeneralLink)
   const iframeRef = ref(null)
   const hasChangedData = ref(false)
 
@@ -19,10 +21,10 @@
     console.log('****************************************')
 
     if (topic == 'endpoint') {
-      endpoint = _data
-
-      data.value = await $fetch(`/api/${endpoint}`)
-      originalData.value = JSON.parse(JSON.stringify(data.value))
+      endpoint = _data as string
+      const d = await $fetch(`/api/${endpoint}`)
+      data.value = d as GeneralLink
+      originalData.value = JSON.parse(JSON.stringify(d))
       hasChangedData.value = false
     }
   }
@@ -32,7 +34,8 @@
     if (data.value.links?.length) {
       const changedLink = data.value.links.find(
         (link, index) =>
-          link.label !== originalData.value.links[index].label || link.link !== originalData.value.links[index].link
+          link.label !== (originalData.value.links?.[index]?.label ?? '') ||
+          link.link !== (originalData.value.links?.[index]?.link ?? '')
       )
       // send the changed links to the server
       await $fetch('/api/link', {
@@ -57,7 +60,6 @@
     originalData.value = JSON.parse(JSON.stringify(data.value))
   }
 
-  // watch data changes
   watch(
     data,
     async (newData, oldData) => {
@@ -84,8 +86,11 @@
 
   const changePosition = (event: { oldIndex: number; newIndex: number }) => {
     const { oldIndex, newIndex } = event
-    const movedItem = data.value.children.splice(oldIndex, 1)[0]
-    data.value.children.splice(newIndex, 0, movedItem)
+    const movedItem = data.value.children?.splice(oldIndex, 1)[0]
+    data.value.children ??= []
+    if (movedItem) {
+      data.value.children.splice(newIndex, 0, movedItem)
+    }
   }
 </script>
 
