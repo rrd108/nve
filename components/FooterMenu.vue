@@ -5,7 +5,7 @@
 <template>
   <section class="component">
     <ul>
-      <li v-for="item in menu?.children" :key="item?.id">
+      <li v-for="item in menu?.children" :key="item?.uid">
         <NuxtLink :to="item?.link">
           {{ item?.label }}
         </NuxtLink>

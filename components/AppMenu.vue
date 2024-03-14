@@ -19,13 +19,18 @@
   <section class="component">
     <nav>
       <ul>
-        <li v-for="item in menu?.children" :key="item?.id" @mouseenter="showSubmenu = item.id" @mouseleave="showSubmenu = 0">
+        <li
+          v-for="item in menu?.children"
+          :key="item?.uid"
+          @mouseenter="showSubmenu = item.uid"
+          @mouseleave="showSubmenu = 0"
+        >
           <NuxtLink :to="item?.link" v-if="item.link">
             {{ item?.label }}
           </NuxtLink>
           <div v-if="!item.link">
             {{ item?.label }}
-            <ul v-show="showSubmenu == item.id">
+            <ul v-show="showSubmenu == item.uid">
               <li v-for="subItem in item.links">
                 <NuxtLink :to="subItem?.link" v-if="subItem.link">
                   {{ subItem?.label }}
