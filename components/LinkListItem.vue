@@ -21,4 +21,15 @@
   </details>
 </template>
 
-<style scoped></style>
+<style scoped>
+  input,
+  label,
+  button {
+    width: 100%;
+    font-size: 1.25rem;
+    border: none;
+    border-radius: 0.5em;
+    padding: 0.25em;
+    margin-bottom: 0.5em;
+  }
+</style>

@@ -99,7 +99,7 @@
         v-bind="dragOptions"
         @start="drag = true"
         @end="drag = false"
-        item-key="id"
+        item-key="uid"
       >
         <template #item="{ element: item }">
           <li>
@@ -170,22 +170,11 @@
     background-color: var(--secondary);
   }
 
-  input,
-  label,
   button {
-    width: 100%;
     font-size: 1.25rem;
-    border: none;
     border-radius: 0.5em;
     padding: 0.25em;
     margin-bottom: 0.5em;
-  }
-  button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    animation: none;
-  }
-  button {
     width: max-content;
     display: block;
     margin: 0.5em auto;
@@ -194,6 +183,12 @@
     border: 0.1em solid var(--primary);
     color: var(--accent);
   }
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    animation: none;
+  }
+
   .pulseOnChange {
     animation: pulse 2s ease-in-out infinite;
   }
