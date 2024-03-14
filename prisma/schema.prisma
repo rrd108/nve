@@ -17,6 +17,7 @@ model Link {
   id     Int    @id @default(autoincrement())
   label  String @unique
   link   String @unique @db.VarChar(255)
+  position Int @default(1)
   menuId Int?
   menu   Menu?  @relation(fields: [menuId], references: [id])
 }
@@ -24,6 +25,7 @@ model Link {
 model Menu {
   id       Int    @id @default(autoincrement())
   label    String @unique
+  position Int @default(1)
   parentId Int?
   parent   Menu?  @relation("ParentMenu", fields: [parentId], references: [id])
   children Menu[] @relation("ParentMenu")

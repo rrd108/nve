@@ -92,8 +92,8 @@
               <input type="text" v-model="item.link" />
             </label>
           </div>
-          <div v-if="!item.link">
-            <h4>{{ item.label }}</h4>
+          <details v-if="!item.link">
+            <summary>{{ item.label }}</summary>
             <ul>
               <li v-for="subItem in item.links">
                 <label>
@@ -106,7 +106,7 @@
                 </label>
               </li>
             </ul>
-          </div>
+          </details>
         </li>
       </ul>
     </aside>
